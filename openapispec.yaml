@@ -1,0 +1,710 @@
+openapi: 3.1.0
+x-stoplight:
+  id: yjfusy249kilj
+info:
+  title: melodyMingle
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content: {}
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+      x-stoplight:
+        id: bcckyc996fsg8
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: access token
+    delete:
+      summary: Delete User by User ID
+      tags: []
+      responses: {}
+      operationId: delete-users-userId
+      x-stoplight:
+        id: suam72d59n4gx
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: access token
+    put:
+      summary: Update User by User ID
+      tags: []
+      responses: {}
+      operationId: put-users-userId
+      x-stoplight:
+        id: 8n3sx3yu1e3i6
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: access token
+  /users:
+    parameters: []
+    get:
+      summary: Get all users
+      tags: []
+      responses: {}
+      operationId: get-users
+      x-stoplight:
+        id: 0wksqfa48uh6b
+  /groups:
+    get:
+      summary: Get all groups
+      tags: []
+      responses: {}
+      operationId: get-groups
+      x-stoplight:
+        id: 4s1beboycqi34
+    post:
+      summary: Create a new group
+      tags: []
+      responses: {}
+      operationId: post-groups
+      x-stoplight:
+        id: 32wv9m02xfe99
+  '/groups/{groupId}':
+    parameters:
+      - schema:
+          type: string
+        name: groupId
+        in: path
+        required: true
+    get:
+      summary: Get a specific group by ID
+      tags: []
+      responses: {}
+      operationId: get-groups-groupId
+      x-stoplight:
+        id: 62kylg3h3i5fa
+    delete:
+      summary: Delete a group by ID
+      tags: []
+      responses: {}
+      operationId: delete-groups-groupId
+      x-stoplight:
+        id: h7s8my6e5bnqg
+    put:
+      summary: Update a specific group
+      tags: []
+      responses: {}
+      operationId: put-groups-groupId
+      x-stoplight:
+        id: w52vx8az1ttsn
+  /events:
+    get:
+      summary: Get all events
+      tags: []
+      responses: {}
+      operationId: get-events
+      x-stoplight:
+        id: ke30jk3s8k6oq
+    post:
+      summary: Create a new event
+      tags: []
+      responses: {}
+      operationId: post-events
+      x-stoplight:
+        id: oyhgpqnfn2fje
+  '/events/{eventId}':
+    parameters:
+      - schema:
+          type: string
+        name: eventId
+        in: path
+        required: true
+    get:
+      summary: Get a specific event by ID
+      tags: []
+      responses: {}
+      operationId: get-events-eventId
+      x-stoplight:
+        id: bp42nd2yj0ere
+    put:
+      summary: Update a specific event
+      tags: []
+      responses: {}
+      operationId: put-events-eventId
+      x-stoplight:
+        id: j4r9zes4jog65
+    delete:
+      summary: Delete an event by ID
+      tags: []
+      responses: {}
+      operationId: delete-events-eventId
+      x-stoplight:
+        id: ta89ywb767htm
+  /matches:
+    get:
+      summary: Check wether users have matched each other
+      tags: []
+      responses:
+        2XX:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  match1:
+                    $ref: '#/components/schemas/Match'
+                    x-stoplight:
+                      id: gwqrqhhn2avho
+                  match2:
+                    $ref: '#/components/schemas/Match'
+                    x-stoplight:
+                      id: 6z1w5e8hty393
+              examples: {}
+      operationId: get-matches
+      x-stoplight:
+        id: lzh3i3v1sfswm
+      parameters:
+        - schema:
+            type: string
+          in: query
+          required: true
+          name: userA
+          description: id of user A
+        - schema:
+            type: string
+          in: query
+          name: userB
+          description: id of user B
+    post:
+      summary: Create a new match
+      tags: []
+      responses: {}
+      operationId: post-matches
+      x-stoplight:
+        id: yzy9asr6lw8am
+    delete:
+      summary: Delete a match
+      tags: []
+      responses: {}
+      operationId: delete-matches
+      x-stoplight:
+        id: f5a36aeo1fuja
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: userA
+          description: id of user A
+        - schema:
+            type: string
+          in: query
+          name: userB
+          description: id of user B
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags: []
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        minimum:
+                          type: integer
+                        type:
+                          type: string
+                        inclusive:
+                          type: boolean
+                        exact:
+                          type: boolean
+                        message:
+                          type: string
+                        path:
+                          type: array
+                          items:
+                            type: string
+                x-examples:
+                  Example 1:
+                    errors:
+                      - code: too_small
+                        minimum: 6
+                        type: string
+                        inclusive: true
+                        exact: false
+                        message: Password must be at least 6 characters long
+                        path:
+                          - password
+        2XX:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  x-stoplight:
+                    id: 8f5r972yzgyge
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      x-stoplight:
+                        id: k3igsqtw5wa7p
+                    eMail:
+                      type: string
+                      x-stoplight:
+                        id: f8b4co8nbuonr
+                      format: email
+                    username:
+                      type: string
+                      x-stoplight:
+                        id: 23mk59ds24cti
+                    dateOfBirth:
+                      type: string
+                      x-stoplight:
+                        id: k0mo6s0xnmcvh
+                      format: date
+                    passwordHash:
+                      type: string
+                      x-stoplight:
+                        id: l4ow3wutk557e
+              examples:
+                Example 1:
+                  value:
+                    - id: 260ccc4e-0f26-4b78-ab1e-163ceb11f855
+                      eMail: a@de.de
+                      username: asdvb
+                      dateOfBirth: '2321-02-23'
+                      passwordHash: $2b$10$7Y2pZewqTLfyK5dgHual/uVxUmxbJyStO6J5WE5RWtCLJIiNL4cEe
+      operationId: post-auth-register
+      x-stoplight:
+        id: gu0zctw5dllph
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eMail:
+                  type: string
+                  x-stoplight:
+                    id: g7mss49rvsmvb
+                  format: email
+                username:
+                  type: string
+                  x-stoplight:
+                    id: p2xn22d0glxpg
+                dateOfBirth:
+                  type: string
+                  x-stoplight:
+                    id: 168bxjb0x714x
+                  format: date
+                password:
+                  type: string
+                  x-stoplight:
+                    id: 0gfvnbol0abpa
+            examples:
+              Example 1:
+                value:
+                  eMail: user@example.com
+                  username: string
+                  dateOfBirth: '2019-08-24'
+                  password: string
+      parameters: []
+  /auth/login:
+    post:
+      summary: Login a user with credentials
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    x-stoplight:
+                      id: olf963wo5t5mb
+      operationId: post-auth-login
+      x-stoplight:
+        id: fogtttxkbowgv
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eMail:
+                  type: string
+                  x-stoplight:
+                    id: h39v8jhp8xgnu
+                  format: email
+                password:
+                  type: string
+                  x-stoplight:
+                    id: 6v2st6bvn48gg
+  /auth/spotify/authorize:
+    get:
+      summary: Construct Auth Url
+      tags: []
+      responses: {}
+      operationId: get-auth-spotify-authorize
+      x-stoplight:
+        id: 9ndinltpu6ap1
+      description: Constructing spotify authorization url
+  /auth/spotify/callback:
+    get:
+      summary: Link Spotify Account to User
+      tags: []
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: dq7l7yp7hcspt
+              examples:
+                Example 1:
+                  value:
+                    message: code not provided!
+      operationId: get-auth-spotify-callback
+      x-stoplight:
+        id: l9kxlng5kwry3
+    parameters:
+      - schema:
+          type: string
+        in: query
+        name: userId
+        description: id of the user to be authenticated
+  /auth/spotify/redirect:
+    get:
+      summary: Redirect to Frontend to get User Info
+      tags: []
+      responses: {}
+      operationId: get-auth-spotify-redirect
+      x-stoplight:
+        id: 0j8naj57icw9k
+      parameters:
+        - schema:
+            type: string
+          in: query
+      description: Forwards query parameters to frontend redirect url endpoint
+  '/users/upload/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    post:
+      summary: Upload profile picture for user
+      tags: []
+      responses: {}
+      operationId: post-users-upload-userId
+      x-stoplight:
+        id: x99qo63iztass
+  /events/public:
+    get:
+      summary: Get all public events
+      tags: []
+      responses: {}
+      operationId: get-events-public
+      x-stoplight:
+        id: gyl5mpjrbp7nr
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      x-stoplight:
+        id: 5e1oexng8jf4f
+      required:
+        - id
+        - email
+        - dateOfBirth
+        - createdAt
+        - username
+        - passwordHash
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the given user.
+          x-stoplight:
+            id: 8nu7b0wj5tta5
+          format: uuid
+        firstName:
+          type: string
+          x-stoplight:
+            id: 4btdgcg0nhhyx
+        lastName:
+          type: string
+          x-stoplight:
+            id: wdx0kb7lkfzob
+        email:
+          type: string
+          format: email
+          x-stoplight:
+            id: kubnw0srko90z
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+          x-stoplight:
+            id: qvazeb5w0suxz
+        createdAt:
+          type: string
+          format: date-time
+          description: The date that the user was created.
+          x-stoplight:
+            id: 0y809rartu2xk
+        username:
+          type: string
+          x-stoplight:
+            id: yd5aigwd4e3dd
+          description: unique
+        bio:
+          type: string
+          x-stoplight:
+            id: z5kndl0qrg1g9
+        city:
+          type: string
+          x-stoplight:
+            id: t6qo9h601zq9u
+        state:
+          type: string
+          x-stoplight:
+            id: jxawnvqwsxofp
+        image:
+          x-stoplight:
+            id: zlzziggd8b6hz
+          type: string
+          description: bytea blob
+          format: binary
+        passwordHash:
+          type: string
+          x-stoplight:
+            id: 9ki4zwdbn2wha
+          format: password
+        genrePreferences:
+          type: array
+          x-stoplight:
+            id: wggocsd3dvr6i
+          description: The music genres the user likes.
+          items:
+            x-stoplight:
+              id: 40gmdshdf1pr2
+            type: string
+        favoriteSongs:
+          type: array
+          x-stoplight:
+            id: 23nix6rdpbgc6
+          items:
+            $ref: '#/components/schemas/Song'
+            x-stoplight:
+              id: fckavg8d96sin
+        gender:
+          type: string
+          x-stoplight:
+            id: x3n9omtls7lgk
+    Group:
+      title: Group
+      x-stoplight:
+        id: 1jwbp53nrizvo
+      type: object
+      required:
+        - id
+        - createdAt
+        - name
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: h0enkt7xxbtlx
+          format: uuid
+        creator:
+          $ref: '#/components/schemas/User'
+          x-stoplight:
+            id: rymqxxqprrqex
+        createdAt:
+          type: string
+          x-stoplight:
+            id: 4zvhwx5g30ft9
+          format: date-time
+        name:
+          type: string
+          x-stoplight:
+            id: 1xcui2reoaitt
+        image:
+          type: string
+          x-stoplight:
+            id: nee0arzpwjbpd
+          format: binary
+          description: bytea blob
+        members:
+          x-stoplight:
+            id: de0g61snuwemo
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+            x-stoplight:
+              id: vuvqyavsqz615
+    Event:
+      title: Event
+      x-stoplight:
+        id: uyrwt5oafvcya
+      type: object
+      required:
+        - id
+        - creator
+        - eventType
+        - startDate
+        - endDate
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: ejrx06gj1zrwa
+          format: uuid
+        creator:
+          $ref: '#/components/schemas/User'
+          x-stoplight:
+            id: mlui48gyyyii7
+        eventType:
+          x-stoplight:
+            id: xemxwrcy78kn0
+          enum:
+            - Concert
+            - Party
+            - Festival
+        startDate:
+          type: string
+          x-stoplight:
+            id: csfrxi5bub863
+          format: date-time
+        endDate:
+          type: string
+          x-stoplight:
+            id: nem4ayq7mjz7s
+          format: date-time
+        location:
+          type: string
+          x-stoplight:
+            id: a32stjcmpf0ls
+        description:
+          type: string
+          x-stoplight:
+            id: vrr8z37tiac1d
+        image:
+          type: string
+          x-stoplight:
+            id: 7cfk3upmc0z25
+          format: binary
+          description: bytea blob
+        participants:
+          type: array
+          x-stoplight:
+            id: xqbicbnhwbm5o
+          items:
+            $ref: '#/components/schemas/User'
+            x-stoplight:
+              id: ihk3000n1vrzk
+    Song:
+      title: Song+
+      x-stoplight:
+        id: s3wfin4eghctw
+      type: object
+      required:
+        - id
+        - title
+        - genre
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: bo7faiawxlsvs
+          format: uuid
+        title:
+          type: string
+          x-stoplight:
+            id: dnp26xg04swd8
+        genre:
+          type: string
+          x-stoplight:
+            id: rx4ckza7gzb7r
+        artist:
+          type: string
+          x-stoplight:
+            id: 3j356ha9q254c
+    Match:
+      title: Match
+      x-stoplight:
+        id: z2pf1ptfetqom
+      type: object
+      required:
+        - userA
+        - userB
+      properties:
+        userA:
+          $ref: '#/components/schemas/User'
+          x-stoplight:
+            id: tpzmrwvnip90j
+        userB:
+          $ref: '#/components/schemas/User'
+          x-stoplight:
+            id: d4cw1sy7tbamd
+        matchDate:
+          type: string
+          x-stoplight:
+            id: iwa4trvpt62ic
+          format: date-time
+        result:
+          type: boolean
+          x-stoplight:
+            id: 1iu3s2txpe6pc

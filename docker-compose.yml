@@ -1,0 +1,49 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: db
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: melodyMingleDB
+      POSTGRES_USER: melodyMingleDBUser
+      POSTGRES_PASSWORD: kommsteniedrauf
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  backend:
+    container_name: backend
+    image: node:22
+    working_dir: /backend
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    command: sh -c "npm i && npm run start:dev"
+    stdin_open: true
+    tty: true
+    environment:
+      - PICTURE_FOLDER=/app/profile_pictures
+    volumes:
+      - ./backend:/backend
+      - ./backend/profile_pictures:/app/profile_pictures
+
+  frontend:
+    container_name: frontend
+    image: node:22
+    working_dir: /frontend
+    restart: unless-stopped
+    ports:
+      - 5173:5173
+    command: sh -c "npm i && npm run dev"
+    volumes:
+      - ./frontend:/frontend
+
+volumes:
+  db-data:
+    driver: local
+  profile_pictures:
+    driver: local
